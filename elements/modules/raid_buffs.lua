@@ -6,41 +6,60 @@ if not cfg.modules.raid_buffs.enable then return end
 local visible, flasked, food, buff1, buff2, buff3, buff4
 
 local foodbuffs = {
-	87548, -- Well Fed
+		87548, -- Well Fed
 }
 local flaskbuffs = {
-			105694,	-- Flask of the Earth
-			105691,	-- Flask of the Warm Sun
-			105696,	-- Flask of Winter's Bite
-			105693,	-- Flask of Falling Leaves
-			105689,	-- Flask of Spring Blossoms
+		156064,	-- Greater Agility
+		156084,	-- Greater Stamina
+		156080,	-- Greater Strength
+		156079,	-- Greater Intellect
+		156073, -- Agility
+		156077, -- Stamina
+		109148, -- Strength
+		156070, -- Intellect
 }
 
 -- Setup caster buffs
 local function SetCasterOnlyBuffs()
 	buff1list = {	-- Total Stats
         90363,	-- Embrace of the Shale Spider
-		20217,	-- Blessing of Kings
 		115921, -- Legacy of the Emperor
+		116781, -- Legacy of the White Tiger
 		1126,	-- Mark of the Wild
+		159988, -- Bark of the Wild
+		160017, -- Blessing of Kongs
+		160077, -- Strength of the Earth
+		160206, -- Lone Wolf: Power of the Primates
+		20217,	-- Blessing of Kings
 	}
 	buff2list = {	-- Total Stamina
-        469, -- Commanding Shout
+        469,   -- Commanding Shout
         90364, -- Qiraji Fortitude
-		109773, -- Dark Intent
+		50256, -- Invigorating Roar
+		160014, -- Sturdiness
+		160003, -- Savage Vigor
+		160199, -- Lone Wolf: Fortitude of the Bear
+		166928, -- Blood Pact
 		21562, -- Power Word: Fortitude	
 	}
 	buff3list = {	-- Spell power
-		77747, -- Burning wrath
 		109773, -- Dark Intent
 		126309, -- Still Water
-		61316, -- Dalaran Brilliance
-		1459,  -- Arcane Brilliance
+		61316,  -- Dalaran Brilliance
+		160205, -- Lone Wolf: Wisdom of the Serpent
+		128433, -- Serpent's Cunning
+		1459,   -- Arcane Brilliance
 	}
 	buff4list = {	-- Mastery
-		116956, -- grace of air
+		116956, -- Grace of Air
+		155522, -- Power of the Grave
+		128997, -- Spirit Beast Blessing, changed to aura in 6.0.2
+		24907,  -- Moonkin Aura
+		160198, -- Lone Wolf: Grace of the Cat
+		93435,  -- Roar of Courage
+		160039, -- Keen Senses
+		160073, -- Plainswalking
 		19740,	-- Blessing of Might
-		116781, -- Legacy of the White Tiger
 	}
 end
 
@@ -48,14 +67,23 @@ end
 local function SetBuffs()
 	buff1list = {	-- Total Stats
         90363,	-- Embrace of the Shale Spider
-		20217,	-- Blessing of Kings
 		115921, -- Legacy of the Emperor
+		116781, -- Legacy of the White Tiger
 		1126,	-- Mark of the Wild
+		159988, -- Bark of the Wild
+		160017, -- Blessing of Kongs
+		160077, -- Strength of the Earth
+		160206, -- Lone Wolf: Power of the Primates
+		20217,	-- Blessing of Kings
 	}
 	buff2list = {	-- Total Stamina
-        469, -- Commanding Shout
+        469,   -- Commanding Shout
         90364, -- Qiraji Fortitude
-		109773, -- Dark Intent
+		50256, -- Invigorating Roar
+		160014, -- Sturdiness
+		160003, -- Savage Vigor
+		160199, -- Lone Wolf: Fortitude of the Bear
+		166928, -- Blood Pact
 		21562, -- Power Word: Fortitude	
 	}
 	buff3list = {	 -- Total AP
@@ -64,9 +92,15 @@ local function SetBuffs()
 		6673,	-- Battle Shout
 	}
 	buff4list = {	-- Mastery
-		116956, -- grace of air
+		116956, -- Grace of Air
+		155522, -- Power of the Grave
+		128997, -- Spirit Beast Blessing, changed to aura in 6.0.2
+		24907,  -- Moonkin Aura
+		160198, -- Lone Wolf: Grace of the Cat
+		93435,  -- Roar of Courage
+		160039, -- Keen Senses
+		160073, -- Plainswalking
 		19740,	-- Blessing of Might
-		116781, -- Legacy of the White Tiger
 	}
 end
 
