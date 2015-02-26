@@ -4,7 +4,7 @@ local cfg = ns.cfg
 
 function Mountz(groundmount, flyingmount, underwatermount)
     local flyablex, swimablex, vjswim, underwater, InVj, nofly
-	local num = GetNumCompanions("MOUNT")
+	local num = C_MountJournal.GetNumMounts()
     if not num or IsMounted() then
         Dismount()
         return
@@ -47,23 +47,18 @@ function Mountz(groundmount, flyingmount, underwatermount)
     end
 	
     for i=1, num, 1 do
-        local crID, info, id = GetCompanionInfo("MOUNT", i)
-		
+        local info, id, icon, active, flags = C_MountJournal.GetMountInfo(i)
 		if underwatermount and info == underwatermount and swimablex then
-			CallCompanion("MOUNT", i)
-			--print(crID,id, info)
+            C_MountJournal.Summon(i)
             return
         elseif flyingmount and info == flyingmount and flyablex and not swimablex then
-            CallCompanion("MOUNT", i)
-			--print(crID,id, info)
+            C_MountJournal.Summon(i)
             return
         elseif groundmount and info == groundmount and not flyablex and not swimablex then
-            CallCompanion("MOUNT", i)
-			--print(crID,id, info)
+            C_MountJournal.Summon(i)
             return
 		elseif id == 75207 and vjswim and IsSwimming() and not swimablex then
-			CallCompanion("MOUNT", i)
-			--print(crID,id)
+            C_MountJournal.Summon(i)
             return
         end
     end
