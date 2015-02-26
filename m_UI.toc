@@ -48,7 +48,6 @@ elements\modules\cooldown_count.lua
 elements\modules\durability.lua
 elements\modules\error_frame.lua
 elements\modules\minimap.lua
-elements\modules\quest.lua
 elements\modules\raid_buffs.lua
 elements\modules\raid_cd.lua
 elements\modules\raid_mark.lua
