@@ -35,6 +35,7 @@ barmod.ApplySettings = function(self, win)
 			skada.button:SetNormalFontObject(titlefont)
 			skada.button:SetBackdrop(nil)
 			skada.button:GetFontString():SetPoint("TOPLEFT", skada.button, "TOPLEFT", 2, -1)
+			skada.button:GetFontString():SetWordWrap(false)
 			skada.button:SetHeight(12)
 	end
 
