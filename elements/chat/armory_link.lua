@@ -5,7 +5,7 @@ local A = ns.A
 --	Armory link on right click player name in chat
 if not cfg.modules.chat.armory_link then return end
 local realmName = string.lower(GetRealmName())
-local realmLocal = string.sub(GetCVar("realmList"), 1, 2)
+local realmLocal = string.lower(GetCVar("portal"))
 local link
 
 realmName = realmName:gsub("'", "")
