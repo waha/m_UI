@@ -107,6 +107,11 @@ MiniMapInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 2, 2)
 MiniMapInstanceDifficulty:SetScale(0.75)
 MiniMapInstanceDifficulty:SetFrameStrata("LOW")
 
+--Garrison icon
+GarrisonLandingPageMinimapButton:ClearAllPoints()
+GarrisonLandingPageMinimapButton:SetPoint("TOPRIGHT", Minimap, 3, 3)
+GarrisonLandingPageMinimapButton:SetScale(.6)
+
 -- Guild Instance Difficulty flag
 GuildInstanceDifficulty:ClearAllPoints()
 GuildInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 2, 2)
