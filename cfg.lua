@@ -50,7 +50,7 @@ cfg.modules = {
 		["timestamps_copy"] = true,				-- Enables special time stamps in chat allowing you to copy the specific line from chat by clicking the stamp
 		["link_hover_tooltips"] = true,			-- enables ALT - hovering for various chat links (achivements, quests etc.)
 		["wrap_meters_reports"] = true,			-- show damage meters (skada, redount etc.) reports as a link in chat
-		["armory_link"] = true,					-- enable armory link in a dropdown menu in chat
+		["armory_link"] = false,					-- enable armory link in a dropdown menu in chat
 	},
 	minimap				= {
 		["enable"] = true,					-- enable minimap modifications
