@@ -39,7 +39,7 @@ f:SetScript("OnEvent", function(self, event)
 	--SetCVar("showAllEnemyDebuffs",1)
 end) ]]
 
---[[ if alDamageMeterFrame then 
+--[[ if alDamageMeterFrame then
 	alDamageMeterFrame:ClearAllPoints()
 	alDamageMeterFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -169, 33)
 end ]]
@@ -51,7 +51,7 @@ end ]]
 StaticPopupDialogs.RESURRECT.hideOnEscape = nil
 StaticPopupDialogs.AREA_SPIRIT_HEAL.hideOnEscape = nil
 StaticPopupDialogs.PARTY_INVITE.hideOnEscape = nil
-StaticPopupDialogs.PARTY_INVITE_XREALM.hideOnEscape = nil
+-- StaticPopupDialogs.PARTY_INVITE_XREALM.hideOnEscape = nil
 StaticPopupDialogs.CONFIRM_SUMMON.hideOnEscape = nil
 StaticPopupDialogs.ADDON_ACTION_FORBIDDEN.button1 = nil
 StaticPopupDialogs.TOO_MANY_LUA_ERRORS.button1 = nil
@@ -80,7 +80,7 @@ end)
 ----------------------------------------------------------------------------------------
 -- Learn all available skills(TrainAll by SDPhantom)
 ----------------------------------------------------------------------------------------
-local frame = CreateFrame("Frame")
+--[[local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_TrainerUI" then
@@ -106,4 +106,4 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		end)
 	end
 end)
-
+]]
