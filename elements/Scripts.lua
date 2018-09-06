@@ -31,25 +31,6 @@ TaintFix:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
--- blizzard glyph bug -> http://us.battle.net/wow/en/forum/topic/6470967787
-local Load = CreateFrame("Frame")
-Load:RegisterEvent("PLAYER_ENTERING_WORLD")
-Load:SetScript("OnEvent", function(self, event)
-	LoadAddOn("Blizzard_TalentUI")
-	LoadAddOn("Blizzard_GlyphUI")
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-end)
-
--- Fix an issue where the GlyphUI depends on the TalentUI but doesn't always load it.
-local f = CreateFrame("Frame")
-f:RegisterEvent("ADDON_LOADED")
-local function OnEvent(self, event, name)
-	if event == "ADDON_LOADED" and name == "Blizzard_GlyphUI" then
-		TalentFrame_LoadUI()
-	end
-end
-f:SetScript("OnEvent",OnEvent)
-
 --[[ local f = CreateFrame"Frame"
 f:RegisterEvent("PLAYER_LOGIN")
 f:RegisterEvent("VARIABLES_LOADED")
