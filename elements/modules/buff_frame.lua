@@ -3,11 +3,11 @@ local cfg = ns.cfg
 
 if not cfg.modules.buffs.enable then return end
 
-local backdrop_tab = { 
-    bgFile = cfg.media.backdrop_texture, 
-    edgeFile = cfg.media.backdrop_edge_texture,
-    tile = false, tileSize = 0, edgeSize = 5, 
-    insets = {left = 5, right = 5, top = 5, bottom = 5,},}
+local backdrop_tab = {
+	bgFile = cfg.media.backdrop_texture,
+	edgeFile = cfg.media.backdrop_edge_texture,
+	tile = false, tileSize = 0, edgeSize = 5,
+	insets = {left = 5, right = 5, top = 5, bottom = 5,},}
 local overlay
 
 local make_backdrop = function(f)
@@ -21,7 +21,7 @@ end
 
 -- making frame to hold all buff frame elements
 local holder = CreateFrame("Frame", "BuffFrameHolder", UIParent)
-holder:SetSize(30,30)
+holder:SetSize(280,225)
 holder:SetPoint(unpack(cfg.modules.buffs.BUFFpos))
 
 local PositionTempEnchant = function()
@@ -33,10 +33,10 @@ end
 local function CreateBuffStyle(buff, t)
 	if not buff or (buff and buff.styled) then return end
 	local bn = buff:GetName()
-	local border 	= _G[bn.."Border"]
-    local icon 		= _G[bn.."Icon"]
-	local duration 	= _G[bn.."Duration"]
-	local count 	= _G[bn.."Count"]
+	local border = _G[bn.."Border"]
+	local icon = _G[bn.."Icon"]
+	local duration = _G[bn.."Duration"]
+	local count = _G[bn.."Count"]
 	if icon and not _G[bn.."Background"] then
 		local h = CreateFrame("Frame")
 		h:SetParent(buff)
@@ -57,7 +57,7 @@ local function CreateBuffStyle(buff, t)
 		count:SetPoint("TOPRIGHT")
 		count:SetFont(cfg.media.font, cfg.modules.buffs.countfontsize, "OUTLINE")
 	end
-	if border then 
+	if border then
 		border:SetTexture(cfg.media.auratex)
 		border:SetTexCoord(0.03, 0.97, 0.03, 0.97)
 		border:SetPoint("TOPLEFT",2,-2)
@@ -82,9 +82,9 @@ local function OverrideBuffAnchors()
 		buff:ClearAllPoints()
 		if ((index > 1) and (mod(index, cfg.modules.buffs.BUFFs_per_row) == 1)) then
 			buff:SetPoint("TOP", aboveBuff, "BOTTOM", 0, -cfg.modules.buffs.spacing*2)
-			aboveBuff = buff; 
+			aboveBuff = buff;
 		elseif ( index == 1 ) then
-			local  mh, _, _, oh, _, _, te = GetWeaponEnchantInfo()
+			local mh, _, _, oh, _, _, te = GetWeaponEnchantInfo()
 
 			if mh and oh and not UnitHasVehicleUI("player") then
 				buff:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -cfg.modules.buffs.spacing, 0);
@@ -96,7 +96,7 @@ local function OverrideBuffAnchors()
 				buff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", 0, 0)
 				aboveBuff = buff
 			end
-			
+
 		else
 			buff:SetPoint("RIGHT", previousBuff, "LEFT", -cfg.modules.buffs.spacing, 0);
 		end
@@ -107,12 +107,12 @@ end
 local function OverrideDebuffAnchors(buttonName, i)
 	local color
 	local buffName = buttonName..i
-	local dtype = select(5, UnitDebuff("player",i))   
+	local dtype = select(4, UnitDebuff("player",i))
 	local border = _G[buffName.."Border"]
 	local buff = _G[buttonName..i];
 	buff:ClearAllPoints()
 	if not buff.styled then CreateBuffStyle(buff) end
-	
+
 	if i == 1 then
 		buff:SetPoint(unpack(cfg.modules.buffs.DEBUFFpos))
 	else
@@ -141,14 +141,22 @@ local function OverrideTempEnchantAnchors()
 	end
 end
 
+local setBuff = BuffFrame.SetPoint
+
 local initialize = function()
-	BuffFrame:SetScale(cfg.modules.buffs.scale)				--BuffFrame scale
-	TemporaryEnchantFrame:SetScale(cfg.modules.buffs.scale)	--temp enchantframe scale
+
+	BuffFrame:SetScale(cfg.modules.buffs.scale) --BuffFrame scale
+	TemporaryEnchantFrame:SetScale(cfg.modules.buffs.scale) --temp enchantframe scale
 	--position buff & temp enchant frames
 	PositionTempEnchant()
-	BuffFrame:SetParent(holder)
 	BuffFrame:ClearAllPoints()
 	BuffFrame:SetPoint(unpack(cfg.modules.buffs.BUFFpos))
+
+	hooksecurefunc(BuffFrame, "SetPoint", function(frame)
+		frame:ClearAllPoints()
+		setBuff(frame, "TOPRIGHT", holder, "TOPRIGHT")
+	end)
+
 	--stylize temp enchant frames
 	for i=1, NUM_TEMP_ENCHANT_FRAMES do
 		local buff = _G["TempEnchant"..i]
@@ -200,7 +208,6 @@ f:RegisterEvent("VARIABLES_LOADED")
 f:RegisterEvent("PLAYER_LOGIN")
 f:SetScript("OnEvent", function(self, event, ...)
 	if event == "VARIABLES_LOADED" then
-		SetCVar("consolidateBuffs",0) -- disabling consolidated buffs
 		if cfg.modules.buffs.disable_timers then cfg.modules.buffs.disable_timers = 0 else cfg.modules.buffs.disable_timers = 1 end
 		SetCVar("buffDurations",cfg.modules.buffs.disable_timers) -- enabling buff durations
 	else
