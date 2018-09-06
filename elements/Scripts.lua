@@ -3,13 +3,11 @@ local cfg = ns.cfg
 
 -- Proper Ready Check sound
 local ShowReadyCheckHook = function(self, initiator, timeLeft)
-	if initiator ~= "player" then PlaySound("ReadyCheck") end
+	if initiator ~= "player" then PlaySound(8960) end
 end
 hooksecurefunc("ShowReadyCheck", ShowReadyCheckHook)
 
 -- setting important CVars
-SetCVar("cameraDistanceMax", 50)
-SetCVar("cameraDistanceMaxFactor", 3.4)
 SetCVar("screenshotQuality", cfg.script.screenshot_quality)
 SetCVar("profanityFilter",0)
 SetCVar("showTutorials", 0)
