@@ -1,6 +1,7 @@
 ﻿local addon, ns = ...
 local cfg = ns.cfg
 
+--[[
 -- Paragons catalyst
 local function pc_announce(txt, sound)
   SendChatMessage(txt, "SAY")
@@ -102,3 +103,4 @@ end
 
 local pc_malice_debuff = CreateFrame("frame")
 pc_malice_debuff:SetScript("OnUpdate", onUpdate_mb)
+]]
