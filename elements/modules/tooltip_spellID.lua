@@ -19,14 +19,14 @@ local function addLine(self,id,isItem)
 	self:Show()
 end
 hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
-	local id = select(11,UnitAura(...))
+	local id = select(10,UnitAura(...))
 	if id then addLine(self,id) end
 end)
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 	local id = select(3,self:GetSpell())
 	if id then addLine(self,id) end
 
-end) 
+end)
 hooksecurefunc("SetItemRef", function(link, ...)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if id then addLine(ItemRefTooltip,id) end
@@ -41,7 +41,5 @@ GameTooltip:HookScript("OnTooltipSetItem", attachItemTooltip)
 ItemRefTooltip:HookScript("OnTooltipSetItem", attachItemTooltip)
 ItemRefShoppingTooltip1:HookScript("OnTooltipSetItem", attachItemTooltip)
 ItemRefShoppingTooltip2:HookScript("OnTooltipSetItem", attachItemTooltip)
---ItemRefShoppingTooltip3:HookScript("OnTooltipSetItem", attachItemTooltip)
 ShoppingTooltip1:HookScript("OnTooltipSetItem", attachItemTooltip)
 ShoppingTooltip2:HookScript("OnTooltipSetItem", attachItemTooltip)
---ShoppingTooltip3:HookScript("OnTooltipSetItem", attachItemTooltip)

@@ -55,6 +55,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
  	local _ConstructTimerBar = NugRunning.ConstructTimerBar
 	function NugRunning.ConstructTimerBar(width, height)
 		local f = _ConstructTimerBar(width, height)
+		Mixin(f, BackdropTemplateMixin)
 		
 		f:SetBackdrop(nil)
 

@@ -1,6 +1,6 @@
 ﻿local addon, ns = ...
 local cfg = ns.cfg
-
+--[[
 ----------------------------------------------------------------------------------------
 --	Based on tekticles(by Tekkub)
 ----------------------------------------------------------------------------------------
@@ -113,3 +113,4 @@ if LSM then
 	LSM:Register(LSM.MediaType.FONT, "Calibri", cfg.media.font, LOCALE_MASK)
 	LSM:Register(LSM.MediaType.STATUSBAR, "Smooth", cfg.media.statusbar)
 end
+]]

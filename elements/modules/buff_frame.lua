@@ -50,7 +50,7 @@ local function CreateBuffStyle(buff, t)
 		duration:SetParent(h)
 		duration:SetPoint("BOTTOM", 0, cfg.modules.buffs.timeYoffset)
 		duration:SetFont(cfg.media.font, cfg.modules.buffs.timefontsize, "THINOUTLINE")
-		local bg = CreateFrame("Frame", bn.."Background", buff)
+		local bg = CreateFrame("Frame", bn.."Background", buff, "BackdropTemplate")
 		make_backdrop(bg)
 		count:SetParent(h)
 		count:ClearAllPoints()
@@ -144,6 +144,12 @@ end
 local setBuff = BuffFrame.SetPoint
 
 local initialize = function()
+	UIParentLoadAddOn("Blizzard_TalkingHeadUI");
+	local THF = TalkingHeadFrame
+	THF.ignoreFramePositionManager = true
+	THF:ClearAllPoints()
+	THF:SetScale(0.8)
+	THF:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 66)
 
 	BuffFrame:SetScale(cfg.modules.buffs.scale) --BuffFrame scale
 	TemporaryEnchantFrame:SetScale(cfg.modules.buffs.scale) --temp enchantframe scale

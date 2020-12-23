@@ -6,101 +6,67 @@ if not cfg.modules.raid_buffs.enable then return end
 local visible, flasked, food, buff1, buff2, buff3, buff4
 
 local foodbuffs = {
-		87548, -- Well Fed
+	87548, -- Well Fed
 }
 local flaskbuffs = {
-		156064,	-- Greater Agility
-		156084,	-- Greater Stamina
-		156080,	-- Greater Strength
-		156079,	-- Greater Intellect
-		156073, -- Agility
-		156077, -- Stamina
-		109148, -- Strength
-		156070, -- Intellect
+	105694,	-- Flask of the Earth
+	105691,	-- Flask of the Warm Sun
+	105696,	-- Flask of Winter's Bite
+	105693,	-- Flask of Falling Leaves
+	105689,	-- Flask of Spring Blossoms
 }
 
 -- Setup caster buffs
 local function SetCasterOnlyBuffs()
 	buff1list = {	-- Total Stats
-        90363,	-- Embrace of the Shale Spider
-		115921, -- Legacy of the Emperor
-		116781, -- Legacy of the White Tiger
-		1126,	-- Mark of the Wild
-		159988, -- Bark of the Wild
-		160017, -- Blessing of Kongs
-		160077, -- Strength of the Earth
-		160206, -- Lone Wolf: Power of the Primates
-		20217,	-- Blessing of Kings
+        -- 90363,	-- Embrace of the Shale Spider
+		-- 20217,	-- Blessing of Kings
+		-- 115921, -- Legacy of the Emperor
+		-- 1126,	-- Mark of the Wild
 	}
 	buff2list = {	-- Total Stamina
-        469,   -- Commanding Shout
-        90364, -- Qiraji Fortitude
-		50256, -- Invigorating Roar
-		160014, -- Sturdiness
-		160003, -- Savage Vigor
-		160199, -- Lone Wolf: Fortitude of the Bear
-		166928, -- Blood Pact
-		21562, -- Power Word: Fortitude	
+        -- 469, -- Commanding Shout
+        -- 90364, -- Qiraji Fortitude
+		-- 109773, -- -- Dark Intent
+		21562, -- Power Word: Fortitude
 	}
 	buff3list = {	-- Spell power
-		109773, -- Dark Intent
-		126309, -- Still Water
-		61316,  -- Dalaran Brilliance
-		160205, -- Lone Wolf: Wisdom of the Serpent
-		128433, -- Serpent's Cunning
-		1459,   -- Arcane Brilliance
+		-- 77747, -- Burning wrath
+		-- 109773, -- Dark Intent
+		-- 126309, -- Still Water
+		-- 61316, -- Dalaran Brilliance
+		1459,  -- Arcane Brilliance
 	}
 	buff4list = {	-- Mastery
-		116956, -- Grace of Air
-		155522, -- Power of the Grave
-		128997, -- Spirit Beast Blessing, changed to aura in 6.0.2
-		24907,  -- Moonkin Aura
-		160198, -- Lone Wolf: Grace of the Cat
-		93435,  -- Roar of Courage
-		160039, -- Keen Senses
-		160073, -- Plainswalking
-		19740,	-- Blessing of Might
+		-- 116956, -- grace of air
+		-- 19740,	-- Blessing of Might
+		-- 116781, -- Legacy of the White Tiger
 	}
 end
 
 -- Setup everyone else's buffs
 local function SetBuffs()
 	buff1list = {	-- Total Stats
-        90363,	-- Embrace of the Shale Spider
-		115921, -- Legacy of the Emperor
-		116781, -- Legacy of the White Tiger
-		1126,	-- Mark of the Wild
-		159988, -- Bark of the Wild
-		160017, -- Blessing of Kongs
-		160077, -- Strength of the Earth
-		160206, -- Lone Wolf: Power of the Primates
-		20217,	-- Blessing of Kings
+        -- 90363,	-- Embrace of the Shale Spider
+		-- 20217,	-- Blessing of Kings
+		-- 115921, -- Legacy of the Emperor
+		-- 1126,	-- Mark of the Wild
 	}
 	buff2list = {	-- Total Stamina
-        469,   -- Commanding Shout
-        90364, -- Qiraji Fortitude
-		50256, -- Invigorating Roar
-		160014, -- Sturdiness
-		160003, -- Savage Vigor
-		160199, -- Lone Wolf: Fortitude of the Bear
-		166928, -- Blood Pact
-		21562, -- Power Word: Fortitude	
+        -- 469, -- Commanding Shout
+        -- 90364, -- Qiraji Fortitude
+		-- 109773, -- Dark Intent
+		21562, -- Power Word: Fortitude
 	}
 	buff3list = {	 -- Total AP
-        19506,	-- Trueshot Aura
-        57330,	-- Horn of Winter
+        -- 19506,	-- Trueshot Aura
+        -- 57330,	-- Horn of Winter
 		6673,	-- Battle Shout
 	}
 	buff4list = {	-- Mastery
-		116956, -- Grace of Air
-		155522, -- Power of the Grave
-		128997, -- Spirit Beast Blessing, changed to aura in 6.0.2
-		24907,  -- Moonkin Aura
-		160198, -- Lone Wolf: Grace of the Cat
-		93435,  -- Roar of Courage
-		160039, -- Keen Senses
-		160073, -- Plainswalking
-		19740,	-- Blessing of Might
+		-- 116956, -- grace of air
+		-- 19740,	-- Blessing of Might
+		-- 116781, -- Legacy of the White Tiger
 	}
 end
 
@@ -142,7 +108,7 @@ local function OnAuraChange(self, event, arg1, unit)
 		FlaskFrame.t:SetTexture(select(3, GetSpellInfo(flaskbuffs[1])))
 		for i, flaskbuffs in pairs(flaskbuffs) do
 			local spellname = select(1, GetSpellInfo(flaskbuffs))
-			if UnitAura("player", spellname) then
+			if AuraUtil.FindAuraByName(spellname ,"player") then
 				FlaskFrame.t:SetTexture(select(3, GetSpellInfo(flaskbuffs)))
 				FlaskFrame:SetAlpha(cfg.modules.raid_buffs.alpha)
 				flasked = true
@@ -158,7 +124,7 @@ local function OnAuraChange(self, event, arg1, unit)
 		FoodFrame.t:SetTexture(select(3, GetSpellInfo(foodbuffs[1])))
 		for i, foodbuffs in pairs(foodbuffs) do
 			local spellname = select(1, GetSpellInfo(foodbuffs))
-			if UnitAura("player", spellname) then
+			if AuraUtil.FindAuraByName(spellname, "player") then
 				FoodFrame:SetAlpha(cfg.modules.raid_buffs.alpha)
 				FoodFrame.t:SetTexture(select(3, GetSpellInfo(foodbuffs)))
 				food = true
@@ -172,7 +138,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, buff1list in pairs(buff1list) do
 		local spellname = select(1, GetSpellInfo(buff1list))
-		if UnitAura("player", spellname) then
+		if AuraUtil.FindAuraByName(spellname, "player") then
 			buff1Frame:SetAlpha(cfg.modules.raid_buffs.alpha)
 			buff1Frame.t:SetTexture(select(3, GetSpellInfo(buff1list)))
 			buff1 = true
@@ -186,7 +152,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, buff2list in pairs(buff2list) do
 		local spellname = select(1, GetSpellInfo(buff2list))
-		if UnitAura("player", spellname) then
+		if AuraUtil.FindAuraByName(spellname, "player") then
 			buff2Frame:SetAlpha(cfg.modules.raid_buffs.alpha)
 			buff2Frame.t:SetTexture(select(3, GetSpellInfo(buff2list)))
 			buff2 = true
@@ -200,7 +166,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, buff3list in pairs(buff3list) do
 		local spellname = select(1, GetSpellInfo(buff3list))
-		if UnitAura("player", spellname) then
+		if AuraUtil.FindAuraByName(spellname, "player") then
 			buff3Frame:SetAlpha(cfg.modules.raid_buffs.alpha)
 			buff3Frame.t:SetTexture(select(3, GetSpellInfo(buff3list)))
 			buff3 = true
@@ -214,7 +180,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, buff4list in pairs(buff4list) do
 		local spellname = select(1, GetSpellInfo(buff4list))
-		if UnitAura("player", spellname) then
+		if AuraUtil.FindAuraByName(spellname, "player") then
 			buff4Frame:SetAlpha(cfg.modules.raid_buffs.alpha)
 			buff4Frame.t:SetTexture(select(3, GetSpellInfo(buff4list)))
 			buff4 = true
@@ -248,9 +214,9 @@ local function OnAuraChange(self, event, arg1, unit)
 end
 
 local rbf = CreateFrame("Frame", "RaidBuffFrame", UIParent)
-if cfg.modules.raid_buffs.orientation == "VERTICAL" then 
+if cfg.modules.raid_buffs.orientation == "VERTICAL" then
 	rbf:SetWidth(cfg.modules.raid_buffs.size)
-	rbf:SetHeight((cfg.modules.raid_buffs.size + cfg.modules.raid_buffs.spacing)* 6)	
+	rbf:SetHeight((cfg.modules.raid_buffs.size + cfg.modules.raid_buffs.spacing)* 6)
 else
 	rbf:SetWidth((cfg.modules.raid_buffs.size + cfg.modules.raid_buffs.spacing)* 6)
 	rbf:SetHeight(cfg.modules.raid_buffs.size)
@@ -271,7 +237,7 @@ rbf:SetScript("OnEvent", OnAuraChange)
 local function CreateButton(name, relativeTo, firstbutton)
 	local button = CreateFrame("Frame", name, RaidBuffFrame)
 	button:EnableMouse(true)
-	if cfg.modules.raid_buffs.orientation == "VERTICAL" then 
+	if cfg.modules.raid_buffs.orientation == "VERTICAL" then
 		if firstbutton then
 			button:SetSize(cfg.modules.raid_buffs.size,cfg.modules.raid_buffs.size)
 			button:SetPoint("TOP", relativeTo, "TOP", 0, 0)

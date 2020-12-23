@@ -67,12 +67,12 @@ if(BigWigs3DB) then table.wipe(BigWigs3DB) end
                         ["BigWigs_Plugins_Bars"] = {
                                 ["profiles"] = {
                                         ["Default"] = {
-                                                ["BigWigsEmphasizeAnchor_y"] = 202,
+                                                ["BigWigsEmphasizeAnchor_y"] = 242,
                                                 ["BigWigsAnchor_width"] = 180,
-                                                ["BigWigsAnchor_y"] = 8,
-                                                ["BigWigsEmphasizeAnchor_x"] = 620,
+                                                ["BigWigsAnchor_y"] = 28,
+                                                ["BigWigsEmphasizeAnchor_x"] = 540,
                                                 ["emphasizeGrowup"] = true,
-                                                ["BigWigsAnchor_x"] = 410,
+                                                ["BigWigsAnchor_x"] = 380,
                                                 ["BigWigsEmphasizeAnchor_width"] = 202,
                                                 ["barStyle"] = "MonoUI",
                                                 ["font"] = "Calibri",

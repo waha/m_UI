@@ -17,18 +17,24 @@ local eb_width = cfg.modules.chat.editbox_width						-- Editbox width
 local tscol = cfg.modules.chat.timestamps_color						-- Timestamp coloring
 local TimeStampsCopy = cfg.modules.chat.timestamps_copy					-- Enables special time stamps in chat allowing you to copy the specific line from your chat window by clicking the stamp
 local TimeStampsFormat = cfg.modules.chat.timestamps_format			-- time stamps format
-local LinkHover = {}; LinkHover.show = {	-- enable (true) or disable (false) LinkHover functionality for different things in chat
-	["achievement"] = true,
-	["enchant"]     = true,
-	["glyph"]       = true,
-	["item"]        = true,
-	["quest"]       = true,
-	["spell"]       = true,
-	["talent"]      = true,
-	["unit"]        = true,}
-	
+local LinkHover = {};
+LinkHover.show = {
+	achievement    = GameTooltip,
+	battlepet      = BattlePetTooltip,
+	battlePetAbil  = SharedPetBattleAbilityTooltip,
+	currency       = GameTooltip,
+	enchant        = GameTooltip,
+	glyph          = GameTooltip,
+	item           = GameTooltip,
+	instancelock   = GameTooltip,
+	quest          = GameTooltip,
+	spell          = GameTooltip,
+	talent         = GameTooltip,
+	unit           = GameTooltip,
+}
+
 local gsub = gsub
-	
+
 ---------------- > Sticky Channels
 ChatTypeInfo.EMOTE.sticky = 0
 ChatTypeInfo.YELL.sticky = 0
@@ -77,10 +83,10 @@ end
 -- Remove the delay between mousing away from the chat frame and the fade starting
 --CHAT_TAB_HIDE_DELAY = 0
 
----------------- > Function to move and scale chatframes 
+---------------- > Function to move and scale chatframes
 SetChat = function()
     FCF_SetLocked(ChatFrame1, nil)
-	FCF_SetChatWindowFontSize(self, ChatFrame1, fontsize) 
+	FCF_SetChatWindowFontSize(self, ChatFrame1, fontsize)
     ChatFrame1:ClearAllPoints()
     ChatFrame1:SetPoint(unpack(def_position))
     ChatFrame1:SetWidth(chat_width)
@@ -105,8 +111,8 @@ ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide)
 ChatFrameMenuButton:Hide()
 
 -- hide social button
-FriendsMicroButton:HookScript("OnShow", FriendsMicroButton.Hide)
-FriendsMicroButton:Hide()
+QuickJoinToastButton:HookScript("OnShow", QuickJoinToastButton.Hide)
+QuickJoinToastButton:Hide()
 
 -- toastframe
 BNToastFrame:SetClampedToScreen(true)
@@ -134,11 +140,11 @@ local function ApplyChatStyle(self)
 	--Unlimited chatframes resizing
 		self:SetMinResize(100,50)
 		self:SetMaxResize(UIParent:GetWidth(), UIParent:GetHeight())
-	
+
 	--Allow the chat frame to move to the end of the screen
 		self:SetClampedToScreen(false)
 		self:SetClampRectInsets(0,0,0,0)
-	
+
 	--Scroll to the bottom button
 		local function BottomButtonClick(self)
 			self:GetParent():ScrollToBottom();
@@ -157,9 +163,9 @@ local function ApplyChatStyle(self)
 		local bf = _G[name..'ButtonFrame']
 		bf:Hide()
 		bf:SetScript("OnShow",  bf.Hide)
-		
+
 	--remove social button
-		
+
 	--EditBox Module
 		local ebParts = {'Left', 'Mid', 'Right'}
 		local eb = _G[name..'EditBox']
@@ -174,7 +180,7 @@ local function ApplyChatStyle(self)
 		eb:SetPoint("BOTTOMLEFT", UIParent, eb_point[1], eb_point[2], eb_point[3])
 		eb:SetPoint("BOTTOMRIGHT", UIParent, eb_point[1], eb_point[2]+eb_width, eb_point[3])
 		eb:EnableMouse(false)
-		
+
 	--chat tab skinning
 	local tab = _G[name.."Tab"]
 	local tabFs = tab:GetFontString()
@@ -192,7 +198,7 @@ local function ApplyChatStyle(self)
 		_G[name.."TabHighlightLeft"]:SetTexture(nil)
 		_G[name.."TabHighlightMiddle"]:SetTexture(nil)
 		_G[name.."TabHighlightRight"]:SetTexture(nil)
-    
+
 --[[     tab:SetAlpha(1)
 	if removeTabFade then
 		tab.SetAlpha = UIFrameFadeRemoveFrame
@@ -202,7 +208,7 @@ local function ApplyChatStyle(self)
 end
 -- calls
 -- Setup chatframes 1 to 10 on login.
-local function SetupChat(self)	
+local function SetupChat(self)
 	for i = 1, NUM_CHAT_WINDOWS do
 		local frame = _G[format("ChatFrame%s", i)]
 		ApplyChatStyle(frame)
@@ -258,7 +264,7 @@ SLASH_TELLTARGET3 = "/wt"
 --guild
 CHAT_GUILD_GET = "|Hchannel:GUILD|h[G]|h %s "
 CHAT_OFFICER_GET = "|Hchannel:OFFICER|hO|h %s "
-    
+
 --raid
 CHAT_RAID_GET = "|Hchannel:RAID|h[R]|h %s "
 CHAT_RAID_WARNING_GET = "[RW] %s "
@@ -272,22 +278,22 @@ CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[PG]|h %s "
 --bg and instances
 CHAT_INSTANCE_CHAT_GET = "|Hchannel:INSTANCE_CHAT|h[I]|h %s: "
 CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:INSTANCE_CHAT|h[IL]|h %s: "
-  
---whisper  
+
+--whisper
 CHAT_WHISPER_INFORM_GET = "to %s "
 CHAT_WHISPER_GET = "from %s "
 CHAT_BN_WHISPER_INFORM_GET = "to %s "
 CHAT_BN_WHISPER_GET = "from %s "
-  
+
 --say / yell
 CHAT_SAY_GET = "%s "
 CHAT_YELL_GET = "%s "
-  
+
 --flags
 CHAT_FLAG_AFK = "[AFK] "
 CHAT_FLAG_DND = "[DND] "
 CHAT_FLAG_GM = "[GM] "
-      
+
 for i = 1, NUM_CHAT_WINDOWS do
 	if ( i ~= 2 ) then
 		local f = _G["ChatFrame"..i]
@@ -296,7 +302,7 @@ for i = 1, NUM_CHAT_WINDOWS do
 			return am(frame, text:gsub('|h%[(%d+)%. .-%]|h', '|h%1|h'), ...)
 		end
     end
-end 
+end
 ---------------- > Enable/Disable mouse for editbox
 eb_mouseon = function()
 	for i =1, 10 do
@@ -315,19 +321,43 @@ hooksecurefunc("ChatEdit_SendText",eb_mouseoff)
 
 ---------------- > Show tooltips when hovering a link in chat (credits to Adys for his LinkHover)
 if cfg.modules.chat.link_hover_tooltips then
+local function tonumber_all(v, ...)
+	if select('#', ...) == 0 then
+		return tonumber(v)
+	else
+		return tonumber(v), tonumber_all(...)
+	end
+end
 function LinkHover.OnHyperlinkEnter(_this, linkData, link)
-	local t = linkData:match("^(.-):")
-	if LinkHover.show[t] and IsAltKeyDown() then
-		ShowUIPanel(GameTooltip)
-		GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-		GameTooltip:SetHyperlink(link)
-		GameTooltip:Show()
+	-- Some links are buggy. (eg. Omnitron warnings in BWD)
+	if not link or link == "" then return end
+	local tt = LinkHover.show[linkData:match("^(.-):")]
+	if tt then
+		if tt == BattlePetTooltip then
+			local x, y = GetCursorPosition()
+			local scale = UIParent:GetEffectiveScale()
+			x = x / scale
+			y = y / scale
+			GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+			GameTooltip:SetPoint(
+				"BOTTOMLEFT", UIParent, "BOTTOMLEFT", x - GameTooltip:GetWidth() / 2, y
+			)
+			BattlePetToolTip_Show(tonumber_all(select(2, strsplit(":", linkData))))
+		elseif tt == SharedPetBattleAbilityTooltip then
+			-- TODO: Get someone fired
+		else
+			ShowUIPanel(tt)
+			tt:SetOwner(UIParent, "ANCHOR_CURSOR")
+			tt:SetHyperlink(link)
+			tt:Show()
+		end
 	end
 end
 function LinkHover.OnHyperlinkLeave(_this, linkData, link)
-	local t = linkData:match("^(.-):")
-	if LinkHover.show[t] then
-		HideUIPanel(GameTooltip)
+	-- local tt = LinkHover.show[linkData:match("^(.-):")]
+	if linkData then
+	else
+		GameTooltip:Hide()
 	end
 end
 local function LinkHoverOnLoad()
@@ -526,7 +556,7 @@ for _, event in pairs(cTypes) do
 			if matches > 0 then
 				return false, result, ...
 			end
-		end 
+		end
 	end)
 end
  ]]
@@ -576,7 +606,7 @@ SetItemRef = function(link, text, ...)
 		return
 	end
 	return SetIRef(link, text, ...)
-end 
+end
 
 --	spam filter
 if spam_filter then
@@ -611,4 +641,3 @@ if whisper_sound then
 		end
 	end)
 end
-

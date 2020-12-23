@@ -32,7 +32,7 @@ hint:RegisterEvent("PLAYER_LOGIN")
 hint:SetScript("OnEvent", function()
     hint:SetScript("OnUpdate", SetTextureTrick)
 end)
-
+Mixin(Minimap, BackdropTemplateMixin)
 -- Background
 Minimap:SetBackdrop({bgFile = "Interface\\ChatFrame\\ChatFrameBackground", insets = {
     top = -BGThickness,
@@ -70,9 +70,8 @@ local frames = {
     "MinimapZoneTextButton",
     "MinimapZoomOut",
     "MinimapZoomIn",
-    "MiniMapVoiceChatFrame",
+--    "MiniMapVoiceChatFrame",
     "MiniMapWorldMapButton",
-	
     "MiniMapMailBorder",
 --    "MiniMapBattlefieldBorder",
 --    "FeedbackUIButton",
@@ -109,8 +108,13 @@ MiniMapInstanceDifficulty:SetFrameStrata("LOW")
 
 --Garrison icon
 GarrisonLandingPageMinimapButton:ClearAllPoints()
-GarrisonLandingPageMinimapButton:SetPoint("TOPRIGHT", Minimap, 3, 3)
+hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
+		self:ClearAllPoints()
+		self:SetPoint("TOPRIGHT", Minimap, 3, 2)
+	end)
+--GarrisonLandingPageMinimapButton:SetPoint("TOPRIGHT", Minimap, 3, 3)
 GarrisonLandingPageMinimapButton:SetScale(.6)
+
 
 -- Guild Instance Difficulty flag
 GuildInstanceDifficulty:ClearAllPoints()
@@ -177,8 +181,14 @@ local menuList = {
     func = function() ToggleLFDParentFrame() end},
 	{text = "Collections",
     func = function() ToggleCollectionsJournal() end},
+	{text = "Covenant",
+	func = function() ShowGarrisonLandingPage(Enum.GarrisonType.Type_9_0) end},
+--	{text = "Missions",
+--	func = function() ShowGarrisonLandingPage(Enum.GarrisonType.Type_8_0) end},
+	{text = "Class Hall",
+	func = function() ShowGarrisonLandingPage(Enum.GarrisonType.Type_7_0) end},
 	{text = "Garrison Report",
-	func = function() GarrisonLandingPage_Toggle() end},
+	func = function() ShowGarrisonLandingPage(Enum.GarrisonType.Type_6_0) end},
     {text = "Help",
     func = function() ToggleHelpFrame() end},
     {text = "Calendar",
@@ -188,6 +198,8 @@ local menuList = {
     end},
     {text = "Dungeon Journal",
 	func = function() ToggleEncounterJournal() end},
+	{text = "Altoholic",
+	func = function() AltoholicFrame:Show() end},
 }
 
 -- Click func

@@ -144,11 +144,14 @@ do
         PlayerTalentFrame_Toggle = function() 
             if ( not PlayerTalentFrame:IsShown() ) then 
                 ShowUIPanel(PlayerTalentFrame); 
-                TalentMicroButtonAlert:Hide(); 
+--                TalentMicroButtonAlert:Hide(); 
             else 
                 PlayerTalentFrame_Close(); 
             end 
         end
+		MainMenuMicroButton_AreAlertsEnabled = function()
+			return false
+		end
 
         for i=1, 10 do
             local tab = _G["PlayerTalentFrameTab"..i];
@@ -204,7 +207,7 @@ do
     hooksecurefunc("UIFrameFlash", function (frame, fadeInTime, fadeOutTime, flashDuration, showWhenDone, flashInHoldTime, flashOutHoldTime, syncId)
         if ( frame ) then
             if not issecurevariable(frame, "syncId") or not issecurevariable(frame, "fadeInTime") or not issecurevariable(frame, "flashTimer") then
-                error(L.FLASH_FAILED)
+--                error(L.FLASH_FAILED)
                 --UIFrameFlashStop(frame)
                 --frameFlashManager:SetScript("OnUpdate", nil)
             end
