@@ -21,9 +21,9 @@ ds:SetScript("OnEvent", function(self, event, addon)
 	local function SkinBars(self)
 		-- making sure we dont get tonns of "OMG MY DBM IS BUGGED" reports, because people can't set their y-offset in DBM config............
 		if DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwards == false then
-			DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 20
-		else
 			DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = -5
+		else
+			DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 20
 		end
 
 		for bar in self:GetBarIterator() do
