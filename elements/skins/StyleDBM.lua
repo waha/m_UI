@@ -1,4 +1,4 @@
-﻿local addon, ns = ...
+local addon, ns = ...
 local cfg = ns.cfg
 local A = ns.A
 if not cfg.skins.dbm or not IsAddOnLoaded("DBM-Core") then return end
@@ -20,16 +20,19 @@ ds:SetScript("OnEvent", function(self, event, addon)
 -- this will inject our code to all dbm bars.
 	local function SkinBars(self)
 		-- making sure we dont get tonns of "OMG MY DBM IS BUGGED" reports, because people can't set their y-offset in DBM config............
-		if DBT_PersistentOptions["DBM"].ExpandUpwards == false then
-			DBT_PersistentOptions["DBM"].BarYOffset = 20
+		if DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwards == false then
+			DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 20
 		else
-			DBT_PersistentOptions["DBM"].BarYOffset = -5
+			DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = -5
 		end
 
 		for bar in self:GetBarIterator() do
 			if not bar.injected then
 				bar.ApplyStyle=function()
 				local frame = bar.frame
+				if not frame.SetBackdrop then
+					Mixin(frame, BackdropTemplateMixin)
+				end
 				local tbar = _G[frame:GetName().."Bar"]
 				local spark = _G[frame:GetName().."BarSpark"]
 				local texture = _G[frame:GetName().."BarTexture"]
@@ -40,7 +43,7 @@ ds:SetScript("OnEvent", function(self, event, addon)
 				if (icon1.overlay) then
 					icon1.overlay = _G[icon1.overlay:GetName()]
 				else
-					icon1.overlay = CreateFrame("Frame", "$parentIcon1Overlay", tbar)
+					icon1.overlay = CreateFrame("Frame", "$parentIcon1Overlay", tbar, BackdropTemplateMixin and "BackdropTemplate")
 					icon1.overlay:SetWidth(buttonsize)
 					icon1.overlay:SetHeight(buttonsize)
 					icon1.overlay:SetFrameStrata("BACKGROUND")
@@ -50,7 +53,7 @@ ds:SetScript("OnEvent", function(self, event, addon)
 				if (icon2.overlay) then
 					icon2.overlay = _G[icon2.overlay:GetName()]
 				else
-					icon2.overlay = CreateFrame("Frame", "$parentIcon2Overlay", tbar)
+					icon2.overlay = CreateFrame("Frame", "$parentIcon2Overlay", tbar, BackdropTemplateMixin and "BackdropTemplate")
 					icon2.overlay:SetWidth(buttonsize)
 					icon2.overlay:SetHeight(buttonsize)
 					icon2.overlay:SetFrameStrata("BACKGROUND")
@@ -160,14 +163,14 @@ ds:SetScript("OnEvent", function(self, event, addon)
 				if count == 1 then
 				local _, anch, _ , _, _ = bar:GetPoint()
 				bar:ClearAllPoints()
-				if DBM_SavedOptions.HealthFrameGrowUp then
+				if DBM_AllSavedOptions["Default"].HealthFrameGrowUp then
 					bar:SetPoint("BOTTOM", anch, "TOP", 0, 3)
 				else
 					bar:SetPoint("TOP", anch, "BOTTOM", 0, -3)
 				end
 			else
 				bar:ClearAllPoints()
-				if DBM_SavedOptions.HealthFrameGrowUp then
+				if DBM_AllSavedOptions["Default"].HealthFrameGrowUp then
 					bar:SetPoint("BOTTOMLEFT", prev, "TOPLEFT", 0, 3)
 				else
 					bar:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -3)
@@ -208,9 +211,10 @@ ds:SetScript("OnEvent", function(self, event, addon)
 	end
 	
 	hooksecurefunc(DBT,"CreateBar", SkinBars)
-	hooksecurefunc(DBM.BossHealth, "Show", SkinBossTitle)
-	hooksecurefunc(DBM.BossHealth, "AddBoss", SkinBoss)
-	hooksecurefunc(DBM.BossHealth, "UpdateSettings", SkinBoss)
+	-- frame no longer exists
+	-- hooksecurefunc(DBM.BossHealth, "Show", SkinBossTitle)
+	-- hooksecurefunc(DBM.BossHealth, "AddBoss", SkinBoss)
+	-- hooksecurefunc(DBM.BossHealth, "UpdateSettings", SkinBoss)
 	
 	hooksecurefunc(DBM.InfoFrame, "Show", function()
 		A.gen_backdrop(DBMInfoFrame)
@@ -238,35 +242,35 @@ end)
 -- Load DBM varriables on demand
 local SetDBM = function()
 	if IsAddOnLoaded("DBM-Core") then
-		DBM_SavedOptions.Enabled=true
-		DBM_SavedOptions.WarningIconLeft=false
-		DBM_SavedOptions.WarningIconRight=false
-		DBM_SavedOptions.ShowSpecialWarnings = true
-		DBM_SavedOptions.ShowMinimapButton = false
-		DBT_PersistentOptions["DBM"].Scale = 0.8
-		DBT_PersistentOptions["DBM"].HugeScale = 1
-		DBT_PersistentOptions["DBM"].BarXOffset = 0
-		DBT_PersistentOptions["DBM"].FillUpBars = true
-		DBT_PersistentOptions["DBM"].IconLeft = true
-		DBT_PersistentOptions["DBM"].ExpandUpwards = true
-		DBT_PersistentOptions["DBM"].IconRight = false
-		DBT_PersistentOptions["DBM"].HugeBarsEnabled = true
-		DBT_PersistentOptions["DBM"].HugeBarXOffset = 0
-		DBT_PersistentOptions["DBM"].HugeTimerX = 14
-		DBT_PersistentOptions["DBM"].HugeTimerY = 280
-		DBT_PersistentOptions["DBM"].HugeBarYOffset = 0
-		DBT_PersistentOptions["DBM"].BarYOffset = -5
-		DBT_PersistentOptions["DBM"].Texture = tex
-		DBT_PersistentOptions["DBM"].HugeWidth = 215
-		DBT_PersistentOptions["DBM"].HugeTimerPoint = "BOTTOM"
-		DBT_PersistentOptions["DBM"].ClickThrough = true
+		DBM_AllSavedOptions["Default"].Enabled=true
+		DBM_AllSavedOptions["Default"].WarningIconLeft=false
+		DBM_AllSavedOptions["Default"].WarningIconRight=false
+		DBM_AllSavedOptions["Default"].ShowSpecialWarnings = true
+		DBM_AllSavedOptions["Default"].ShowMinimapButton = false
+		DBT_AllPersistentOptions["Default"]["DBM"].Scale = 0.8
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeScale = 1
+		DBT_AllPersistentOptions["Default"]["DBM"].BarXOffset = 0
+		DBT_AllPersistentOptions["Default"]["DBM"].FillUpBars = true
+		DBT_AllPersistentOptions["Default"]["DBM"].IconLeft = true
+		DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwards = true
+		DBT_AllPersistentOptions["Default"]["DBM"].IconRight = false
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarsEnabled = true
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarXOffset = 0
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerX = 14
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerY = 280
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 0
+		DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = -5
+		DBT_AllPersistentOptions["Default"]["DBM"].Texture = tex
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeWidth = 215
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerPoint = "BOTTOM"
+		DBT_AllPersistentOptions["Default"]["DBM"].ClickThrough = true
 		
-		DBT_PersistentOptions["DBM"].TimerX = -340
-		DBT_PersistentOptions["DBM"].TimerY = 0
-		DBT_PersistentOptions["DBM"].TimerPoint = "BOTTOM"
-		DBT_PersistentOptions["DBM"].Font = font
-		DBT_PersistentOptions["DBM"].FontSize = 10
-		DBT_PersistentOptions["DBM"].Width = 190
+		DBT_AllPersistentOptions["Default"]["DBM"].TimerX = -340
+		DBT_AllPersistentOptions["Default"]["DBM"].TimerY = 0
+		DBT_AllPersistentOptions["Default"]["DBM"].TimerPoint = "BOTTOM"
+		DBT_AllPersistentOptions["Default"]["DBM"].Font = font
+		DBT_AllPersistentOptions["Default"]["DBM"].FontSize = 10
+		DBT_AllPersistentOptions["Default"]["DBM"].Width = 190
 	end	
 end
 
@@ -282,6 +286,6 @@ StaticPopupDialogs.SET_DBM = {
 }
 SLASH_SETDBM1 = "/setdbm"
 SlashCmdList["SETDBM"] = function() 
-	--SetDBM() ReloadUI() 
+	-- SetDBM() ReloadUI() 
 	StaticPopup_Show("SET_DBM")
 end
