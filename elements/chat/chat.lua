@@ -1,4 +1,4 @@
-﻿local addon, ns = ...
+local addon, ns = ...
 local cfg = ns.cfg
 local A = ns.A
 if not cfg.modules.chat.enable then return end
@@ -149,7 +149,7 @@ local function ApplyChatStyle(self)
 		local function BottomButtonClick(self)
 			self:GetParent():ScrollToBottom();
 		end
-		local bb = _G[name.."ButtonFrameBottomButton"]
+		local bb = _G[name].ScrollToBottomButton
 		bb:SetParent(_G[name])
 		bb:SetHeight(18)
 		bb:SetWidth(18)
