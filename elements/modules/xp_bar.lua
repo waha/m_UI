@@ -183,6 +183,16 @@ mXP:SetScript("OnEvent", function(self, event, ...)
 	if event and UnitLevel("player") == MAX_PLAYER_LEVEL and not GetWatchedFactionInfo() then
 		mXP:Hide()
 	else
+		local name, standing, min, max, value = GetWatchedFactionInfo()
+		max, min = (max-min), (value-min)
+		if name then mXP:Show() else mXP:Hide() return end
+		mXP:Set(indMain, min/max)
+		ind1:Hide()
+		restXP = format("|cffffffff%s|r (|cffffffff%s|r)", name, _G['FACTION_STANDING_LABEL'..standing])
+		tM:SetFormattedText("|cffffffff%.1f|r%%", min/max*100)
+		XPtolvl = LargeValue(min-max)
+		XPbars = ""
+		mXP:UpdateText()
 		mXP:Show()
 	end
 	if event and IsInRaid() then
